@@ -1,5 +1,3 @@
-package com.wotifgroup.logging.util;
-
 /*
  * #%L
  * Wotif Group Logging Utilities
@@ -19,6 +17,7 @@ package com.wotifgroup.logging.util;
  * limitations under the License.
  * #L%
  */
+package com.wotifgroup.logging.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

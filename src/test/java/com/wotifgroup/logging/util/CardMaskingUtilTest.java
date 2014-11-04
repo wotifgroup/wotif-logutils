@@ -20,16 +20,13 @@
 package com.wotifgroup.logging.util;
 
 
-
-import junit.framework.TestCase;
-
 import org.junit.Assert;
+import org.junit.Test;
 
-import com.wotifgroup.logging.util.CardMaskingUtil;
+public class CardMaskingUtilTest {
 
-public class CardMaskingUtilTest extends TestCase {
-
-    public void testCardNumberDetection() {
+    @Test
+    public void maskCardNumbers() {
         // American Express Test Cards
         assertMasked("Value '378282#####0005' is not facet-valid", "Value '378282246310005' is not facet-valid");
         assertMasked("Value '371449#####8431' is not facet-valid", "Value '371449635398431' is not facet-valid");
@@ -58,9 +55,7 @@ public class CardMaskingUtilTest extends TestCase {
         assertMasked("Value '411111######1111' is not facet-valid", "Value '4111111111111111' is not facet-valid");
         assertMasked("Value '401288######1881' is not facet-valid", "Value '4012888888881881' is not facet-valid");
         assertMasked("Value '422222###2222' is not facet-valid", "Value '4222222222222' is not facet-valid");
-    }
 
-    public void testMask() {
         assertMasked("Value '411111######1111' is not facet-valid", "Value '4111111111111111' is not facet-valid");
         assertMasked("Value '4111 11## #### 1111' is not facet-valid", "Value '4111 1111 1111 1111' is not facet-valid");
         assertMasked("Value ' 4111 11## #### 1111' is not facet-valid", "Value ' 4111 1111 1111 1111' is not facet-valid");
@@ -96,47 +91,6 @@ public class CardMaskingUtilTest extends TestCase {
         assertMasked("4111+11##+####+1111", "4111+1111+1111+1111");
     }
 
-    public void testPerformanceWithMasking() {
-        final int loops = 10;
-        final int iterations = 100000;
-        final int nanosPerMilli = 1000000;
-
-        for (int j = 0; j < loops; j++) {
-            long start = System.nanoTime();
-            for (int i = 0; i < iterations; i++) {
-                assertMasked("Value '378282#####0005' is not facet-valid", "Value '378282246310005' is not facet-valid");
-            }
-            long end = System.nanoTime();
-
-            long totalTime = end - start;
-            long totalTimeMs = totalTime / nanosPerMilli;
-            long perMatchTime = totalTime / iterations;
-
-            System.out.println("mask " + iterations + " in " + totalTimeMs + " ms or approx. " + perMatchTime + " ns per match");
-        }
-    }
-
-    public void testPerformanceWithoutMasking() {
-        final int loops = 10;
-        final int iterations = 100000;
-        final int nanosPerMilli = 1000000;
-
-        for (int j = 0; j < loops; j++) {
-            long start = System.nanoTime();
-            for (int i = 0; i < iterations; i++) {
-                assertMasked("Value is not facet-valid", "Value is not facet-valid");
-            }
-            long end = System.nanoTime();
-
-            long totalTime = end - start;
-            long totalTimeMs = totalTime / nanosPerMilli;
-            long perMatchTime = totalTime / iterations;
-
-            System.out
-                    .println("nomask " + iterations + " in " + totalTimeMs + " ms or approx. " + perMatchTime + " ns per match");
-        }
-    }
-
     private void assertMasked(String expected, String input) {
         try {
             StringBuilder sb = new StringBuilder(input);
@@ -144,7 +98,7 @@ public class CardMaskingUtilTest extends TestCase {
             Assert.assertEquals(expected, sb.toString());
         } catch (Exception ex) {
             ex.printStackTrace();
-            fail("Should not throw exception: " + ex.getMessage());
+            Assert.fail("Should not throw exception: " + ex.getMessage());
         }
     }
 

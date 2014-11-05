@@ -23,6 +23,13 @@
         </license>
     </licenses>
 
+    <scm>
+        <connection>scm:git:git://github.com/wotifgroup/wotif-logutils.git</connection>
+        <developerConnection>scm:git:git@github.com:wotifgroup/wotif-logutils.git</developerConnection>
+        <url>http://github.com/wotifgroup/wotif-logutils</url>
+        <tag>HEAD</tag>
+    </scm>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -113,9 +120,69 @@
                 </executions>
             </plugin>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
+                    <pushChanges>false</pushChanges>
+                    <localCheckout>true</localCheckout>
+                </configuration>
+            </plugin>
+
         </plugins>
 
+        <extensions>
+
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav</artifactId>
+                <version>1.0-beta-2</version>
+            </extension>
+
+        </extensions>
+
     </build>
+
+
+    <distributionManagement>
+
+        <repository>
+            <id>wotif</id>
+            <name>Wotif Internal Repository</name>
+            <url>dav:http://maven.dev.wotifgroup.com/content/repositories/releases</url>
+        </repository>
+
+    </distributionManagement>
 
 </project>
 

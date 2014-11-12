@@ -26,6 +26,13 @@ import org.junit.Test;
 public class CardMaskingUtilTest {
 
     @Test
+    public void maskCVV() {
+        assertMasked("SeriesCode=\"###\"", "SeriesCode=\"922\"");
+        assertMasked("\"cvv\":\"###\"", "\"cvv\":\"123\"");
+        assertMasked("\"SeriesCode\":\"123\"", "\"SeriesCode\":\"123\"");
+    }
+
+    @Test
     public void maskCardNumbers() {
         // American Express Test Cards
         assertMasked("Value '378282#####0005' is not facet-valid", "Value '378282246310005' is not facet-valid");

@@ -36,6 +36,9 @@ public final class CardMaskingUtil {
             .compile("(?<!\\d)([23456]\\d{3})(?:[ \\+\\-]|%20)?(\\d{4})(?:[ \\-\\+]|%20)?" +
                     "(\\d{2})(?:[ \\-\\+]|%20)?(\\d{2})(?:[ \\-\\+]|%20)?(\\d{1,4})(?!\\d)");
 
+    private static final Pattern CVV = Pattern
+            .compile("SeriesCode=\"([0-9]{3})\"|\"cvv\":\"([0-9]{3})\"");
+
     private static final int[][] LUHN_TABLE = { { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, { 0, 2, 4, 6, 8, 1, 3, 5, 7, 9 } };
 
     /**
@@ -45,7 +48,25 @@ public final class CardMaskingUtil {
      * @param sb
      *            with possible card numbers.
      */
-    public static final void mask(final StringBuilder sb) {
+    public static void mask(final StringBuilder sb) {
+        maskCC(sb);
+        maskCVV(sb);
+    }
+
+    private static void maskCVV(StringBuilder sb) {
+        final Matcher m = CVV.matcher(sb);
+        while (m.find()) {
+            for (int i = 1; i <= m.groupCount(); i++) {
+                if (m.start(i) != -1) {
+                    sb.setCharAt(m.start(i), MASK_CHAR);
+                    sb.setCharAt(m.start(i) + 1, MASK_CHAR);
+                    sb.setCharAt(m.start(i) + 2, MASK_CHAR);
+                }
+            }
+        }
+    }
+
+    private static void maskCC(StringBuilder sb) {
         final Matcher m = CARD_NUMBER.matcher(sb);
         while (m.find()) {
             // System.err.println("Card candidate: " + sb.substring(m.start(), m.end()));

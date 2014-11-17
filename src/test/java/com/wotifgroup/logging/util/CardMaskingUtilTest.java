@@ -29,6 +29,7 @@ public class CardMaskingUtilTest {
     public void maskCVV() {
         assertMasked("SeriesCode=\"###\"", "SeriesCode=\"922\"");
         assertMasked("\"cvv\":\"###\"", "\"cvv\":\"123\"");
+        assertMasked("SeriesCode='###'", "SeriesCode='922'");
         assertMasked("\"SeriesCode\":\"123\"", "\"SeriesCode\":\"123\"");
     }
 

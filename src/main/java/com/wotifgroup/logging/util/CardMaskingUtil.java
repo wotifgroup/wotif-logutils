@@ -37,7 +37,7 @@ public final class CardMaskingUtil {
                     "(\\d{2})(?:[ \\-\\+]|%20)?(\\d{2})(?:[ \\-\\+]|%20)?(\\d{1,4})(?!\\d)");
 
     private static final Pattern CVV = Pattern
-            .compile("SeriesCode=\"([0-9]{3})\"|\"cvv\":\"([0-9]{3})\"");
+            .compile("SeriesCode='([0-9]{3})'|SeriesCode=\"([0-9]{3})\"|\"cvv\":\"([0-9]{3})\"");
 
     private static final int[][] LUHN_TABLE = { { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, { 0, 2, 4, 6, 8, 1, 3, 5, 7, 9 } };
 
